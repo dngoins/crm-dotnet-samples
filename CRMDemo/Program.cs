@@ -6,9 +6,15 @@ using System.Text;
 using System.Threading.Tasks;
 using System.ServiceModel.Channels;
 using Microsoft.Xrm.Sdk;
-using CrmEarlyBound;
+//using CrmEarlyBound;
 using Microsoft.Xrm.Sdk.Query;
 using Microsoft.Xrm.Sdk.Client;
+using Newtonsoft.Json.Linq;
+using System.IdentityModel.Metadata;
+using System.Security.Principal;
+using System.Windows.Controls;
+using System.Windows;
+using System.Xml.Linq;
 
 namespace CRMDemo
 {
@@ -19,7 +25,7 @@ namespace CRMDemo
             var connectionString = $@"Url=https://org3ba05cbf.crm.dynamics.com/;
                 AuthType = OAuth;
                 UserName = dwight.goins@langanenterprises.com;
-                Password = J@manaH999;
+                Password = NotMyAcc0987.;
                 AppId = 51f81489-12ee-4a9e-aaae-a2591f45987d;
                 RedirectUri = app://58145B91-0C36-4500-8554-080854F2AC97;
                
@@ -36,9 +42,9 @@ namespace CRMDemo
 
                 Console.WriteLine( "New Account Created is: {0}", primaryKeyOfAccount.ToString());
 
-                Account newAct = new Account();
-                newAct.Name = "Avanade New Account 2";
-                svc.Create(newAct);
+  //              Account newAct = new Account();
+  //              newAct.Name = "Avanade New Account 2";
+  //              svc.Create(newAct);
 
                 // Now let's use Query Expressions
                 QueryExpression query = new QueryExpression("contact");
@@ -50,6 +56,29 @@ namespace CRMDemo
                 query.LinkEntities.Add(linkEntity);
                                 
                 List<Entity> contacts = svc.RetrieveMultiple(query).Entities.ToList();
+
+                //3. Retrieve active contacts parented by accounts in Redmond
+                FetchExpression fetch_query = new FetchExpression(
+                    $@"<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false'> 
+                        <entity name='contact'>
+                            <attribute name='fullname' />
+                            <attribute name='contactid' />
+                            <order attribute='fullname' descending='false' />
+                            <filter type='and'>
+                                <condition attribute='statecode' operator='eq' value='0' />
+                            </filter>
+                            <link-entity name='account' from='accountid' to='parentcustomerid' alias='ae' >
+                                <attribute name='name'/>
+                                <filter type='and'>
+                                    <condition attribute='address1_city' operator='eq' value='Redmond' />
+                                </filter>
+                            </link-entity>
+                         </entity>
+                       </fetch>");
+                
+
+                List < Entity > fect_contacts = svc.RetrieveMultiple(fetch_query).Entities.ToList();
+
 
             }
 
