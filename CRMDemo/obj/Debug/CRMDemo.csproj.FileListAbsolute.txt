@@ -42,3 +42,4 @@ C:\Users\dngoi\source\repos\github\dngoins\crm-dotnet-samples\CRMDemo\obj\Debug\
 C:\Users\dngoi\source\repos\github\dngoins\crm-dotnet-samples\CRMDemo\obj\Debug\CRMDemo.csproj.CopyComplete
 C:\Users\dngoi\source\repos\github\dngoins\crm-dotnet-samples\CRMDemo\obj\Debug\CRMDemo.exe
 C:\Users\dngoi\source\repos\github\dngoins\crm-dotnet-samples\CRMDemo\obj\Debug\CRMDemo.pdb
+C:\Users\dngoi\source\repos\github\dngoins\crm-dotnet-samples\CRMDemo\bin\Debug\Microsoft.PowerPlatform.Dataverse.Client.dll
